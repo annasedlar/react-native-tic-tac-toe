@@ -5,9 +5,9 @@ class Board extends React.Component {
     render() {
         return (
             <div className="row board-container">
-                <Row number="0" onClick={this.props.onClick} row={this.props.board[0]}/>
-                <Row number="1" onClick={this.props.onClick} row={this.props.board[1]}/>
-                <Row number="2" onClick={this.props.onClick} row={this.props.board[2]}/>
+                <Row onClick={this.props.onClick} rowNum={0} boardRow={this.props.board[0]}/>
+                <Row onClick={this.props.onClick} rowNum={1} boardRow={this.props.board[1]}/>
+                <Row onClick={this.props.onClick} rowNum={2} boardRow={this.props.board[2]}/>
             </div>
         )
     }

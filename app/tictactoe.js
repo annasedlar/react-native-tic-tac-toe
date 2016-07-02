@@ -6,7 +6,7 @@ class TicTacToe extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            player: "X",
+            nextPlayer: "X",
             board: [
                 [null, null, null],
                 [null, null, null],
@@ -34,14 +34,14 @@ class TicTacToe extends React.Component {
     clickButton(row, col){
         // Update Board
         let board = this.state.board
-        board[row][col] = this.state.player
+        board[row][col] = this.state.nextPlayer
 
         // Update Player
-        let player = this.state.player
-        player = (player == "X") ? "O" : "X"
+        let nextPlayer = this.state.nextPlayer
+        nextPlayer = (nextPlayer == "X") ? "O" : "X"
 
         this.setState({
-            player: player,
+            nextPlayer: nextPlayer,
             board: board
         }, () => {
             this.checkSolution(board);
@@ -56,6 +56,9 @@ class TicTacToe extends React.Component {
                   </div>
                 </div>
                 <Board board={this.state.board} onClick={this.clickButton.bind(this)}/>
+                <div className="row text-center player-info">
+                    <p>Next player: <span>{this.state.nextPlayer}</span></p>
+                </div>
             </div>
         )
     }
