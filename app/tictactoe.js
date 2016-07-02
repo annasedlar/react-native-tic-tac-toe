@@ -1,6 +1,9 @@
 import React from 'react';
 import Board from './components/Board';
+import { createStore } from 'redux'
+import {moveReducer} from './reducers'
 
+let store = createStore(moveReducer);
 
 class TicTacToe extends React.Component {
     constructor(props){
@@ -12,6 +15,7 @@ class TicTacToe extends React.Component {
                 [null, null, null],
                 [null, null, null]
             ],
+            winner: null,
             solutions: [
                 [[0,0], [0,1], [0,2]],
                 [[1,0], [1,1], [1,2]],
