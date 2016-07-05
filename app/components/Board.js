@@ -3,11 +3,20 @@ import Row from './Row';
 
 class Board extends React.Component {
     render() {
+        let gameRows = [0, 1, 2].map((val) => {
+            return <Row
+            onClick={this.props.onClick}
+            rowNum={val}
+            boardRow={this.props.board[val]}
+            gameOver={this.props.gameOver}
+            key={val}
+            />
+        })
         return (
             <div className="row board-container">
-                <Row onClick={this.props.onClick} rowNum={0} boardRow={this.props.board[0]}/>
-                <Row onClick={this.props.onClick} rowNum={1} boardRow={this.props.board[1]}/>
-                <Row onClick={this.props.onClick} rowNum={2} boardRow={this.props.board[2]}/>
+                <div className="col-xs-12">
+                    {gameRows}
+                </div>
             </div>
         )
     }

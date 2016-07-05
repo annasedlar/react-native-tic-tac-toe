@@ -3,11 +3,19 @@ import Button from './Button';
 
 class Row extends React.Component {
     render() {
+        let gameButtons = [0, 1, 2].map((val) => {
+            return <Button
+                    rowNum={this.props.rowNum}
+                    colNum={val}
+                    gameOver={this.props.gameOver}
+                    buttonValue={this.props.boardRow[val]}
+                    onClick={this.props.onClick}
+                    key={val}
+                    />
+        })
         return (
             <div className="row">
-                <Button rowNum={this.props.rowNum} colNum={0} onClick={this.props.onClick} buttonValue={this.props.boardRow[0]}/>
-                <Button rowNum={this.props.rowNum} colNum={1} onClick={this.props.onClick} buttonValue={this.props.boardRow[1]}/>
-                <Button rowNum={this.props.rowNum} colNum={2} onClick={this.props.onClick} buttonValue={this.props.boardRow[2]}/>
+                {gameButtons}
             </div>
         )
     }

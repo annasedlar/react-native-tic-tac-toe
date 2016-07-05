@@ -14,7 +14,7 @@ class Button extends React.Component {
         }
         return (
             <div className="col-xs-4 game-cell">
-                <button className={"btn " + buttonClasses[this.props.buttonValue]} type="submit" onClick={handleClick} disabled={this.props.buttonValue !== null}>
+                <button className={"btn " + buttonClasses[this.props.buttonValue]} type="submit" onClick={handleClick} disabled={this.props.buttonValue !== null || this.props.gameOver}>
                     {this.props.buttonValue ? this.props.buttonValue : "?"}
                 </button>
             </div>
