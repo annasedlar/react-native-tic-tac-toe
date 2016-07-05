@@ -1,55 +1,32 @@
 import React from 'react';
 import Board from './components/Board';
-import { createStore } from 'redux'
-import {moveReducer} from './reducers'
-
-let store = createStore(moveReducer);
+import GameStatus from './components/GameStatus';
+import {movement} from './actions.js';
 
 class TicTacToe extends React.Component {
     constructor(props){
         super(props);
-        this.state = {
-            nextPlayer: "X",
-            board: [
-                [null, null, null],
-                [null, null, null],
-                [null, null, null]
-            ],
-            winner: null,
-            solutions: [
-                [[0,0], [0,1], [0,2]],
-                [[1,0], [1,1], [1,2]],
-                [[2,0], [2,1], [2,2]],
-                [[0,0], [1,0], [2,0]],
-                [[0,1], [1,1], [2,1]],
-                [[0,2], [1,2], [2,2]],
-                [[0,0], [1,1], [2,2]],
-                [[0,2], [1,1], [2,0]],
-            ]
-        };
+        this.store = props.store;
+        this.state = this.store.getState();
     }
-    changePlayer(currentPlayer){
-        let res = currentPlayer === "X" ? "X" : "O"
-        return res
+    componentWillMount() {
+        let store = this.store;
+        let self = this;
+        store.subscribe(() => self.setState(
+            store.getState()
+        ));
     }
-    checkSolution(board){
-        console.log("TODO: CHECK SOLUTION")
+    clickButton(row, col) {
+        this.store.dispatch(movement(row, col));
     }
-    clickButton(row, col){
-        // Update Board
-        let board = this.state.board
-        board[row][col] = this.state.nextPlayer
-
-        // Update Player
-        let nextPlayer = this.state.nextPlayer
-        nextPlayer = (nextPlayer == "X") ? "O" : "X"
-
-        this.setState({
-            nextPlayer: nextPlayer,
-            board: board
-        }, () => {
-            this.checkSolution(board);
-        });
+    getColor() {
+        let currentPlayer = this.state.nextPlayer == "X" ? "O" : "X"
+        let colorMapping = {
+            "X": "player-x",
+            "O": "player-o",
+        }
+        return this.state.winner ?
+            colorMapping[currentPlayer] : colorMapping[this.state.nextPlayer]
     }
     render() {
         return (
@@ -59,9 +36,17 @@ class TicTacToe extends React.Component {
                     <h1>React - Tic Tac Toe</h1>
                   </div>
                 </div>
-                <Board board={this.state.board} onClick={this.clickButton.bind(this)}/>
-                <div className="row text-center player-info">
-                    <p>Next player: <span>{this.state.nextPlayer}</span></p>
+                <Board
+                    board={this.state.board}
+                    gameOver={this.state.gameOver}
+                    onClick={this.clickButton.bind(this)}
+                />
+                <div className={"row text-center player-info " + this.getColor()}>
+                    <GameStatus
+                        nextPlayer={this.state.nextPlayer}
+                        gameOver={this.state.gameOver}
+                        winner={this.state.winner}
+                    />
                 </div>
             </div>
         )
