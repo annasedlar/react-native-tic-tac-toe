@@ -12,3 +12,7 @@ Minimal implementation of a "Tic-Tac-Toe" app using React
     $ npm start
 
 Now point your browser to [http://localhost:3333](http://localhost:3333)
+
+## Layout
+
+![Tic-Tac-Toe image](./assets/tictactoe.png?raw=true)
