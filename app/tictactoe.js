@@ -1,7 +1,7 @@
 import React from 'react';
 import Board from './components/Board';
 import GameStatus from './components/GameStatus';
-import {movement} from './actions.js';
+import {movement, restart} from './actions.js';
 
 class TicTacToe extends React.Component {
     constructor(props){
@@ -16,8 +16,11 @@ class TicTacToe extends React.Component {
             store.getState()
         ));
     }
-    clickButton(row, col) {
+    clickMovement(row, col) {
         this.store.dispatch(movement(row, col));
+    }
+    clickRestart() {
+        this.store.dispatch(restart());
     }
     getColor() {
         let currentPlayer = this.state.nextPlayer == "X" ? "O" : "X"
@@ -33,13 +36,13 @@ class TicTacToe extends React.Component {
             <div className="center-block game-container">
                 <div className="row">
                   <div className="col-xs-12 text-center">
-                    <h1>React - Tic Tac Toe</h1>
+                    <h1 className="title">React - Tic Tac Toe</h1>
                   </div>
                 </div>
                 <Board
                     board={this.state.board}
                     gameOver={this.state.gameOver}
-                    onClick={this.clickButton.bind(this)}
+                    onClick={this.clickMovement.bind(this)}
                 />
                 <div className={"row text-center player-info " + this.getColor()}>
                     <GameStatus
@@ -47,6 +50,11 @@ class TicTacToe extends React.Component {
                         gameOver={this.state.gameOver}
                         winner={this.state.winner}
                     />
+                </div>
+                <div className="row text-center">
+                    <button className="btn btn-danger" onClick={this.clickRestart.bind(this)}>
+                        <span className="glyphicon glyphicon-refresh"></span><b> Restart!</b>
+                    </button>
                 </div>
             </div>
         )

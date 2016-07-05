@@ -1,4 +1,5 @@
 export const MOVEMENT = 'MOVEMENT';
+export const RESTART = 'RESTART';
 
 let movement = (rowNum, colNum) => {
     return {
@@ -8,4 +9,11 @@ let movement = (rowNum, colNum) => {
     }
 };
 
-export {movement};
+let restart = () => {
+    return {
+        type: 'RESTART'
+    }
+};
+
+
+export {movement, restart};
