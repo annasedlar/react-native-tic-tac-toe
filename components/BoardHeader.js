@@ -16,15 +16,14 @@ BoardHeader.propTypes = {
 
 const styles = StyleSheet.create({
   viewStyle: {
-    backgroundColor: '#F5F5F5',
     height: 45,
     justifyContent: 'center',
     alignItems: 'center'
   },
 
   textStyle: {
-    color: '#444',
-    fontSize: 16,
+    color: '#EEE',
+    fontSize: 17,
     fontWeight: '900'
   }
 });

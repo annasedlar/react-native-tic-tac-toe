@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { NavigationStyles } from '@exponent/ex-navigation';
+import Colors from '../constants/Colors';
 import BoardHeader from '../components/BoardHeader';
+import TicTacToe from '../components/Tictactoe';
 
 const BoardScreen = props => (
   <View style={styles.container}>
-    <Text style={{ color: 'red' }}>
-      BOARD SCREEN
-    </Text>
+    <TicTacToe />
   </View>
 );
 
@@ -15,7 +15,7 @@ BoardScreen.route = {
   navigationBar: {
     visible: true,
     renderTitle: params => <BoardHeader headerText="React Native - Tic Tac Toe" />,
-    backgroundColor: '#222',
+    backgroundColor: Colors.primary700,
     tintColor: '#FFF'
   },
   styles: NavigationStyles.FloatHorizontal
@@ -28,8 +28,7 @@ BoardScreen.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end'
+    backgroundColor: Colors.primary
   }
 });
 

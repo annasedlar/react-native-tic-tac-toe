@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@exponent/ex-navigation": "~2.0.0",
+    "@exponent/vector-icons": "^2.0.3",
     "exponent": "~11.0.0",
     "lodash": "^4.16.4",
     "react": "15.3.2",

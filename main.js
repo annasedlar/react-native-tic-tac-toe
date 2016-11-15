@@ -3,6 +3,8 @@ import React, { PropTypes } from 'react';
 import { Platform, StatusBar, StyleSheet,
          View } from 'react-native';
 import { NavigationProvider, StackNavigation } from '@exponent/ex-navigation';
+import { Provider as ReduxProvider } from 'react-redux';
+import store from './state/store';
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utils/cacheAssetsAsync';
 
@@ -37,17 +39,19 @@ class AppContainer extends React.Component {
   render() {
     if (this.state.appIsReady) {
       return (
-        <View style={styles.container}>
-          <NavigationProvider router={Router}>
-            <StackNavigation
-              id="root"
-              initialRoute={Router.getRoute('board')}
-            />
-          </NavigationProvider>
+        <ReduxProvider store={store}>
+          <View style={styles.container}>
+            <NavigationProvider router={Router}>
+              <StackNavigation
+                id="root"
+                initialRoute={Router.getRoute('board')}
+              />
+            </NavigationProvider>
 
-          {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-        </View>
+            {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+            {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+          </View>
+        </ReduxProvider>
       );
     }
 

@@ -1,16 +1,43 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { Text, StyleSheet } from 'react-native';
 
 class GameStatus extends React.Component {
-    render() {
-        if (this.props.gameOver) {
-            if (this.props.winner) {
-                return <p>Game Over: <span>{this.props.winner} wins!</span></p>
-            } else {
-                return <p>Game Over: <span>Game is tied!</span></p>
-            }
-        }
-        return <p>Next player: <span>{this.props.nextPlayer}</span></p>
+  render() {
+    if (this.props.gameOver) {
+      if (this.props.winner) {
+        return (
+          <Text style={styles.text}>
+            Game Over: {this.props.winner} wins!
+          </Text>
+        );
+      }
+
+      return (
+        <Text style={styles.text}>
+          Game Over: Game is tied!
+        </Text>
+      );
     }
+    return (
+      <Text style={styles.text}>
+        Next player: {this.props.nextPlayer}
+      </Text>
+    );
+  }
 }
+
+GameStatus.propTypes = {
+  nextPlayer: PropTypes.string,
+  gameOver: PropTypes.bool,
+  winner: PropTypes.string
+};
+
+const styles = StyleSheet.create({
+  text: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: '600'
+  }
+});
 
 export default GameStatus;
