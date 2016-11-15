@@ -1,37 +1,33 @@
 {
-  "name": "react-seed",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "name": "react-native-tic-tac-toe",
+  "version": "0.0.0",
+  "description": "react-native-tic-tac-toe",
+  "author": null,
+  "private": true,
+  "main": "main.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --colors",
-    "test": "mocha './app/**/*.spec.js' --compilers js:babel-register"
+    "test": "jest --no-cache --verbose"
   },
-  "babel": {
-    "presets": ["es2015", "react"]
+  "jest": {
+    "preset": "jest-exponent"
   },
   "dependencies": {
-    "babel-core": "*",
-    "babel-loader": "*",
-    "babel-polyfill": "^6.9.0",
-    "babel-preset-es2015": "*",
-    "babel-preset-react": "*",
-    "lodash": "^4.12.0",
-    "react": "^15.1.0",
-    "react-dom": "*",
-    "webpack": "*",
-    "webpack-dev-server": "*"
+    "@exponent/ex-navigation": "~2.0.0",
+    "exponent": "~11.0.0",
+    "lodash": "^4.16.4",
+    "react": "15.3.2",
+    "react-native": "github:exponentjs/react-native#sdk-11.0.0",
+    "react-redux": "^4.4.5",
+    "react-test-renderer": "^15.3.2",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "remote-redux-devtools": "^0.5.0"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "babel-register": "^6.9.0",
-    "chai": "^3.5.0",
-    "deep-freeze": "0.0.1",
-    "eslint": "^2.11.1",
-    "eslint-plugin-react": "^5.1.1",
-    "expect": "^1.20.1",
-    "mocha": "^2.5.3",
-    "react-addons-test-utils": "^15.1.0"
+    "eslint": "^3.8.0",
+    "eslint-config-rmotr": "0.0.5",
+    "eslint-plugin-react": "^6.4.1",
+    "jest-cli": "^17.0.0",
+    "jest-exponent": "^0.1.3"
   }
 }
