@@ -4,8 +4,6 @@ import { initialState } from './initialState';
 
 const moveReducer = (state = initialState, action) => {
   const updateBoard = (currentBoard) => {
-    console.log('UPDATE BOARD');
-    console.log(action.rowNum, action.colNum);
     const newBoard = [
             [currentBoard[0][0], currentBoard[0][1], currentBoard[0][2]],
             [currentBoard[1][0], currentBoard[1][1], currentBoard[1][2]],
