@@ -23,8 +23,8 @@ class TicTacToe extends React.Component {
   getColor() {
     const currentPlayer = this.props.game.nextPlayer === 'X' ? 'O' : 'X';
     const colorMapping = {
-      X: Colors.danger,
-      O: Colors.success
+      X: Colors.X,
+      O: Colors.O
     };
 
     return this.props.game.winner ?
@@ -88,18 +88,15 @@ const styles = StyleSheet.create({
 
   gameContainer: {
     height: windowWidth,
-    borderWidth: 2,
-    borderRadius: 10,
-    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: Colors.primary300,
     marginTop: 30,
     margin: 10
   },
 
   gameContainerGradient: {
-    flex: 1,
-    height: this.windowWidth,
-    borderRadius: 10,
-    borderColor: '#ddd'
+    flex: 1
   },
 
   gameStatus: {

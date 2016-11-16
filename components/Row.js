@@ -36,8 +36,8 @@ Row.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around'
+    flex: 1,
+    flexDirection: 'row'
   }
 });
 

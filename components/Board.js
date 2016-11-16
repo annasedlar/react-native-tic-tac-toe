@@ -34,10 +34,7 @@ Board.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'stretch'
+    flex: 1
   }
 });
 

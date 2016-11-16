@@ -1,15 +1,17 @@
-const primary = '#3a4767';
-const primary700 = '#232b40';
-const success = '#1bbc9c';
-const danger = '#e15043';
+const primary = '#3A4767';
+const primary300 = '#525E7D';
+const primary700 = '#232B40';
+const O = '#1bbc9c';
+const X = '#e15043';
 const warning = '#f0ad4e';
-const raw = '#ddd';
+const raw = '#777';
 
 export default {
   primary,
+  primary300,
   primary700,
-  success,
-  danger,
+  O,
+  X,
   warning,
   raw
 };

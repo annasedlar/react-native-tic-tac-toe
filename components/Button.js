@@ -17,8 +17,8 @@ class Button extends React.Component {
   render() {
     const buttonClasses = {
       null: Colors.raw,
-      X: Colors.danger,
-      O: Colors.success
+      X: Colors.X,
+      O: Colors.O
     };
 
     return (
@@ -45,7 +45,12 @@ Button.propTypes = {
 
 const styles = StyleSheet.create({
   option: {
-    backgroundColor: 'transparent'
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.primary300
   },
 
   optionText: {
