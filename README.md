@@ -54,7 +54,7 @@ Note: If you will use an Android emulator, you will probably need to configure t
 
 ## Layout
 
-![tictactoe_board](http://i.imgur.com/1CUrnIX.png)
+![tictactoe_board](http://i.imgur.com/l3BwZaG.png)
 
 ---
 <p align="center">
