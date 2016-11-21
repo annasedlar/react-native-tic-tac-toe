@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { View, Text, StyleSheet,
          Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { Components } from 'exponent';
+import { Components, Constants } from 'exponent';
 import firebaseApp from '../constants/Firebase';
 import Colors from '../constants/Colors';
 import Board from './Board';
@@ -58,8 +58,24 @@ class TicTacToe extends React.Component {
 
   render() {
     let reload;
+    let nextPlayer = this.props.game.nextPlayer;
 
-    if (!this.props.boardId) {
+    if (this.props.boardId) {
+      // change nextPlayer on online game
+      if (this.props.boardId) {
+        if (Constants.deviceId === this.props.game.creator) {
+          if (nextPlayer === 'X') {
+            nextPlayer = 'Me';
+          } else if (nextPlayer === 'O') {
+            nextPlayer = 'Rival';
+          }
+        } else if (nextPlayer === 'X') {
+          nextPlayer = 'Rival';
+        } else if (nextPlayer === 'O') {
+          nextPlayer = 'Me';
+        }
+      }
+    } else {
       reload = (
         <OptionItem
           text={'Restart!'}
@@ -85,7 +101,7 @@ class TicTacToe extends React.Component {
             <Board
               board={this.props.game.board}
               gameOver={this.props.game.gameOver}
-              onClick={this.clickMovement}
+              onClick={nextPlayer === 'Rival' ? () => {} : this.clickMovement}
             />
           </Components.LinearGradient>
         </View>
@@ -94,7 +110,7 @@ class TicTacToe extends React.Component {
           <GameStatus
             boardId={this.props.game.boardId}
             creator={this.props.game.creator}
-            nextPlayer={this.props.game.nextPlayer}
+            nextPlayer={nextPlayer}
             gameOver={this.props.game.gameOver}
             winner={this.props.game.winner}
           />
