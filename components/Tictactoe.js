@@ -74,6 +74,7 @@ class TicTacToe extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}>
           {this.props.boardId ? 'Online' : 'Offline'} play!
+          {this.props.boardId ? ` - board: ${this.props.boardId}` : ''}
         </Text>
 
         <View style={styles.gameContainer}>
@@ -91,6 +92,8 @@ class TicTacToe extends React.Component {
 
         <View style={[styles.gameStatus, { backgroundColor: this.getColor() }]}>
           <GameStatus
+            boardId={this.props.game.boardId}
+            creator={this.props.game.creator}
             nextPlayer={this.props.game.nextPlayer}
             gameOver={this.props.game.gameOver}
             winner={this.props.game.winner}
