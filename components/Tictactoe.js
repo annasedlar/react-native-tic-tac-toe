@@ -1,15 +1,16 @@
 import React, { PropTypes } from 'react';
 import { View, Text, StyleSheet,
-         TouchableOpacity, Dimensions } from 'react-native';
+         Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Components } from 'exponent';
-import { FontAwesome } from '@exponent/vector-icons';
+import firebaseApp from '../constants/Firebase';
 import Colors from '../constants/Colors';
 import Board from './Board';
 import GameStatus from './GameStatus';
 import OptionItem from './OptionItem';
-import { movement, restart } from '../state/actions';
+import { movement, restart, loadBoard } from '../state/actions';
 
+const firebaseRef = firebaseApp.database().ref();
 const windowWidth = Dimensions.get('window').width;
 
 class TicTacToe extends React.Component {
@@ -18,6 +19,18 @@ class TicTacToe extends React.Component {
 
     this.clickMovement = this.clickMovement.bind(this);
     this.clickRestart = this.clickRestart.bind(this);
+    this.loadBoard = this.loadBoard.bind(this);
+
+    if (props.boardId && !props.game.boardId) {
+      firebaseRef.child('boards').child(props.boardId)
+      .on('value', (snapshot) => {
+        const onlineBoard = snapshot.val();
+
+        this.loadBoard(onlineBoard);
+      }, (err) => {
+        Alert.alert('That board code doesn\'t exist');
+      });
+    }
   }
 
   getColor() {
@@ -31,8 +44,12 @@ class TicTacToe extends React.Component {
             colorMapping[currentPlayer] : colorMapping[this.props.game.nextPlayer];
   }
 
+  loadBoard(board) {
+    this.props.loadBoard(board);
+  }
+
   clickMovement(row, col) {
-    this.props.movement(row, col);
+    this.props.movement(row, col, this.props.boardId);
   }
 
   clickRestart() {
@@ -40,8 +57,25 @@ class TicTacToe extends React.Component {
   }
 
   render() {
+    let reload;
+
+    if (!this.props.boardId) {
+      reload = (
+        <OptionItem
+          text={'Restart!'}
+          icon={'refresh'}
+          iconColor={Colors.warning}
+          onPress={this.clickRestart}
+        />
+      );
+    }
+
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>
+          {this.props.boardId ? 'Online' : 'Offline'} play!
+        </Text>
+
         <View style={styles.gameContainer}>
           <Components.LinearGradient
             colors={[Colors.primary, Colors.primary700]}
@@ -63,21 +97,18 @@ class TicTacToe extends React.Component {
           />
         </View>
 
-        <OptionItem
-          text={'Restart!'}
-          icon={'refresh'}
-          iconColor={Colors.warning}
-          onPress={this.clickRestart}
-        />
+        {reload}
       </View>
     );
   }
 }
 
 TicTacToe.propTypes = {
+  boardId: PropTypes.number,
   game: PropTypes.object,
   movement: PropTypes.func,
-  restart: PropTypes.func
+  restart: PropTypes.func,
+  loadBoard: PropTypes.func
 };
 
 const styles = StyleSheet.create({
@@ -86,12 +117,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
 
+  title: {
+    color: '#FFF',
+    fontSize: 14,
+    fontStyle: 'italic',
+    marginHorizontal: 10
+  },
+
   gameContainer: {
     height: windowWidth,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: Colors.primary300,
-    marginTop: 30,
+    marginTop: 0,
     margin: 10
   },
 
@@ -112,5 +150,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { movement, restart }
+  { movement, restart, loadBoard }
 )(TicTacToe);

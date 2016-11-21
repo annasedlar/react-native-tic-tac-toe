@@ -10,7 +10,6 @@ class Button extends React.Component {
   }
 
   handleClick(evt) {
-    console.log('HANDLE CLICK');
     this.props.onClick(this.props.rowNum, this.props.colNum);
   }
 

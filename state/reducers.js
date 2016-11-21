@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { MOVEMENT, RESTART } from './actions';
+import { MOVEMENT, RESTART, LOAD_BOARD } from './actions';
 import { initialState } from './initialState';
 
 const moveReducer = (state = initialState, action) => {
@@ -10,14 +10,15 @@ const moveReducer = (state = initialState, action) => {
             [currentBoard[2][0], currentBoard[2][1], currentBoard[2][2]]
     ];
     newBoard[action.rowNum][action.colNum] = state.nextPlayer;
+
     return newBoard;
   };
 
   const checkBoardIsFull = (board) => {
-        /*
-        Returns true if all positions in the board are already fulfilled
-        with a value different to null, or false otherwise.
-        */
+    /*
+    Returns true if all positions in the board are already fulfilled
+    with a value different to null, or false otherwise.
+    */
     let isFull = true;
     [0, 1, 2].map((row) => {
       [0, 1, 2].map((col) => {
@@ -30,10 +31,10 @@ const moveReducer = (state = initialState, action) => {
   };
 
   const isWinningCombination = (combinationValues) => {
-        /*
-        Returns true if given combinationValues
-        is ["X", "X", "X"] or ["O", "O", "O"], or false otherwise.
-        */
+    /*
+    Returns true if given combinationValues
+    is ["X", "X", "X"] or ["O", "O", "O"], or false otherwise.
+    */
     const xWins = !_.without(combinationValues, 'X').length;
     const oWins = !_.without(combinationValues, 'O').length;
     return xWins || oWins;
@@ -41,19 +42,19 @@ const moveReducer = (state = initialState, action) => {
 
   const checkWinningCombination = (board) => {
     const combinations = [
-            // horizontals
-            [[0, 0], [0, 1], [0, 2]],
-            [[1, 0], [1, 1], [1, 2]],
-            [[2, 0], [2, 1], [2, 2]],
+      // horizontals
+      [[0, 0], [0, 1], [0, 2]],
+      [[1, 0], [1, 1], [1, 2]],
+      [[2, 0], [2, 1], [2, 2]],
 
-            // verticals
-            [[0, 0], [1, 0], [2, 0]],
-            [[0, 1], [1, 1], [2, 1]],
-            [[0, 2], [1, 2], [2, 2]],
+      // verticals
+      [[0, 0], [1, 0], [2, 0]],
+      [[0, 1], [1, 1], [2, 1]],
+      [[0, 2], [1, 2], [2, 2]],
 
-            // diagonals
-            [[0, 0], [1, 1], [2, 2]],
-            [[0, 2], [1, 1], [2, 0]]
+      // diagonals
+      [[0, 0], [1, 1], [2, 2]],
+      [[0, 2], [1, 1], [2, 0]]
     ];
     let foundWinningCombination = false;
     _.forEach(combinations, (combination) => {
@@ -96,6 +97,7 @@ const moveReducer = (state = initialState, action) => {
       }
 
       return {
+        ...state,
         winner,
         nextPlayer: player,
         gameOver,
@@ -103,6 +105,15 @@ const moveReducer = (state = initialState, action) => {
       };
     case RESTART:
       return initialState;
+    case LOAD_BOARD:
+      return {
+        boardId: action.onlineGame.boardId,
+        creator: action.onlineGame.creator,
+        winner: action.onlineGame.winner || null,
+        nextPlayer: action.onlineGame.nextPlayer,
+        gameOver: action.onlineGame.gameOver,
+        board: _.merge(initialState.board, action.onlineGame.board)
+      };
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Row from './Row';
 
 class Board extends React.Component {

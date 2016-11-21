@@ -7,14 +7,14 @@ import TicTacToe from '../components/Tictactoe';
 
 const BoardScreen = props => (
   <View style={styles.container}>
-    <TicTacToe />
+    <TicTacToe boardId={props.route.params.boardId} />
   </View>
 );
 
 BoardScreen.route = {
   navigationBar: {
     visible: true,
-    renderTitle: params => <BoardHeader headerText="React Native - Tic Tac Toe" />,
+    renderTitle: () => <BoardHeader headerText="React Native - Tic Tac Toe" />,
     backgroundColor: Colors.primary700,
     tintColor: '#FFF'
   },
