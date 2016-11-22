@@ -10,6 +10,7 @@ export const RESTART = 'RESTART';
 export const LOAD_BOARD = 'LOAD_BOARD';
 export const CREATE_BOARD = 'CREATE_BOARD';
 export const UPDATE_BOARD = 'UPDATE_BOARD';
+export const LOADING = 'LOADING';
 
 export const movement = (rowNum, colNum) => (dispatch, getState) => {
   dispatch({
@@ -35,6 +36,11 @@ export const restart = () => (dispatch) => {
 };
 
 export const createBoard = () => (dispatch) => {
+  dispatch({
+    type: LOADING,
+    loading: true
+  });
+
   const newGame = initialState();
   newGame.boardId = Math.floor(Math.random() * 9000) + 1000;
 
@@ -42,7 +48,9 @@ export const createBoard = () => (dispatch) => {
   .set(newGame)
   .then(() => {
     dispatch({
-      type: CREATE_BOARD
+      type: CREATE_BOARD,
+      newBoard: newGame.boardId,
+      loading: false
     });
 
     Alert.alert(
@@ -54,6 +62,11 @@ export const createBoard = () => (dispatch) => {
 
 export const loadBoard = boardId => (dispatch) => {
   if (boardId) {
+    dispatch({
+      type: LOADING,
+      loading: true
+    });
+
     firebaseRef.child('boards').child(boardId)
     .on('value', (snapshot) => {
       const game = snapshot.val();
@@ -69,17 +82,32 @@ export const loadBoard = boardId => (dispatch) => {
 
         dispatch({
           type: LOAD_BOARD,
-          game
+          game,
+          loading: false
         });
       } else {
         // play offline
-        restart();
-        Alert.alert('That board code doesn\'t exist');
+        dispatch({
+          type: RESTART,
+          game: initialState()
+        });
+
+        Alert.alert('That board code doesn\'t exist', 'don\'t worry, let\'s play offline');
       }
     }, (err) => {
       // play offline
-      restart();
-      Alert.alert('That board code doesn\'t exist');
+      dispatch({
+        type: RESTART,
+        game: initialState()
+      });
+
+      Alert.alert('That board code doesn\'t exist', 'don\'t worry, let\'s play offline');
+    });
+  } else {
+    // play offline
+    dispatch({
+      type: RESTART,
+      game: initialState()
     });
   }
 };

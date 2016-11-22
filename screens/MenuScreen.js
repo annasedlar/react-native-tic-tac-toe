@@ -6,6 +6,7 @@ import Prompt from 'react-native-prompt';
 import Colors from '../constants/Colors';
 import BoardHeader from '../components/BoardHeader';
 import MenuButton from '../components/MenuButton';
+import LoadingIndicator from '../components/LoadingIndicator';
 import { createBoard, loadBoard, restart } from '../state/actions';
 
 @withNavigation
@@ -14,7 +15,6 @@ class MenuScreen extends React.Component {
     super(props);
 
     this.state = {
-      newBoard: null,
       promptVisible: false
     };
 
@@ -66,7 +66,7 @@ class MenuScreen extends React.Component {
         />
 
         <MenuButton
-          text={this.state.newBoard ? `Create online game: ${this.state.newBoard}` : 'Create online game'}
+          text={this.props.game.newBoard ? `Create online game: ${this.props.game.newBoard}` : 'Create online game'}
           icon={'globe'}
           iconColor={Colors.warning}
           onPress={this.createBoard}
@@ -88,6 +88,12 @@ class MenuScreen extends React.Component {
           onCancel={() => this.setState({ promptVisible: false })}
           onSubmit={this.checkOnlineGame}
         />
+
+        <LoadingIndicator
+          visible={this.props.game.loading}
+          message={'Just a moment...'}
+          size={'large'}
+        />
       </View>
     );
   }
@@ -105,6 +111,7 @@ MenuScreen.route = {
 
 MenuScreen.propTypes = {
   navigator: PropTypes.object,
+  game: PropTypes.object,
   restart: PropTypes.func,
   createBoard: PropTypes.func,
   loadBoard: PropTypes.func
@@ -130,7 +137,11 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => ({
+  game: state.game
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { createBoard, loadBoard, restart }
 )(MenuScreen);

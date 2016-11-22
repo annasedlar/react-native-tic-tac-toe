@@ -1,5 +1,5 @@
 import { without, forEach } from 'lodash';
-import { MOVEMENT, RESTART,
+import { MOVEMENT, RESTART, LOADING,
          CREATE_BOARD, LOAD_BOARD } from './actions';
 import { initialState } from './initialState';
 
@@ -107,9 +107,21 @@ const moveReducer = (state = initialState(), action) => {
     case RESTART:
       return action.game;
     case CREATE_BOARD:
-      return state;
+      return {
+        ...state,
+        newBoard: action.newBoard,
+        loading: action.loading
+      };
     case LOAD_BOARD:
-      return action.game;
+      return {
+        ...action.game,
+        loading: action.loading
+      };
+    case LOADING:
+      return {
+        ...state,
+        loading: action.loading
+      };
     default:
       return state;
   }

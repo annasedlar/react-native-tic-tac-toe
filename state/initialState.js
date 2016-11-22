@@ -10,5 +10,7 @@ export const initialState = () => ({
     [null, null, null],
     [null, null, null],
     [null, null, null]
-  ]
+  ],
+  newBoard: null,
+  loading: false
 });
