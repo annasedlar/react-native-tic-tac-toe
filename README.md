@@ -2,6 +2,10 @@
 
 Minimal implementation of a "Tic-Tac-Toe" app using React Native and Exponent
 
+<p align="center">
+  <img src="http://i.imgur.com/Umqn5xc.gif">
+</p>
+
 ## Setting up project dependencies
 
 ```bash
@@ -51,12 +55,6 @@ $ exp start --android [options]
 ```
 
 Note: If you will use an Android emulator, you will probably need to configure the `ANDROID_HOME` and `PATH` env variables to make it works correctly.
-
-## Layout
-
-<p align="center">
-  <img src="http://i.imgur.com/Umqn5xc.gif">
-</p>
 
 ---
 <p align="center">
