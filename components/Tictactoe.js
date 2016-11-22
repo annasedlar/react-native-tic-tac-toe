@@ -41,19 +41,23 @@ class TicTacToe extends React.Component {
   render() {
     let reload;
     let nextPlayer = this.props.game.nextPlayer;
+    let player1;
+    let player2;
 
     if (this.props.game.boardId) {
       // change nextPlayer on online game
       if (Constants.deviceId === this.props.game.creator) {
-        if (nextPlayer === 'X') {
-          nextPlayer = 'Me';
-        } else if (nextPlayer === 'O') {
-          nextPlayer = 'Rival';
-        }
-      } else if (nextPlayer === 'X') {
-        nextPlayer = 'Rival';
+        player1 = 'Me';
+        player2 = 'Rival';
+      } else {
+        player1 = 'Rival';
+        player2 = 'Me';
+      }
+
+      if (nextPlayer === 'X') {
+        nextPlayer = player1;
       } else if (nextPlayer === 'O') {
-        nextPlayer = 'Me';
+        nextPlayer = player2;
       }
     }
 

@@ -32,14 +32,13 @@ export const movement = (rowNum, colNum) => (dispatch, getState) => {
 export const restart = () => (dispatch, getState) => {
   const { game } = getState();
   const { boardId } = game;
-  const player = game.nextPlayer === 'X' ? 'O' : 'X';
   const emptyBoard = initialState().board;
 
   if (boardId) {
     dispatch({
       type: CLEAN_ONLINE_BOARD,
       winner: null,
-      nextPlayer: player,
+      nextPlayer: game.nextPlayer,
       gameOver: false,
       board: emptyBoard
     });
