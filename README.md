@@ -55,7 +55,7 @@ Note: If you will use an Android emulator, you will probably need to configure t
 ## Layout
 
 <p align="center">
-  <img src="http://imgur.com/Bi4Athc">
+  <img src="http://i.imgur.com/Bi4Athc.gif">
 </p>
 
 ---
