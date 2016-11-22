@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
 import { View, Text, StyleSheet,
-         TouchableOpacity, Dimensions } from 'react-native';
+         Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import { Components } from 'exponent';
-import { FontAwesome } from '@exponent/vector-icons';
+import { Components, Constants } from 'exponent';
 import Colors from '../constants/Colors';
 import Board from './Board';
 import GameStatus from './GameStatus';
@@ -40,8 +39,42 @@ class TicTacToe extends React.Component {
   }
 
   render() {
+    let reload;
+    let nextPlayer = this.props.game.nextPlayer;
+
+    if (this.props.game.boardId) {
+      // change nextPlayer on online game
+      if (Constants.deviceId === this.props.game.creator) {
+        if (nextPlayer === 'X') {
+          nextPlayer = 'Me';
+        } else if (nextPlayer === 'O') {
+          nextPlayer = 'Rival';
+        }
+      } else if (nextPlayer === 'X') {
+        nextPlayer = 'Rival';
+      } else if (nextPlayer === 'O') {
+        nextPlayer = 'Me';
+      }
+    }
+
+    if (!this.props.game.boardId || this.props.game.gameOver) {
+      reload = (
+        <OptionItem
+          text={'Restart!'}
+          icon={'refresh'}
+          iconColor={Colors.warning}
+          onPress={this.clickRestart}
+        />
+      );
+    }
+
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>
+          {this.props.game.boardId ? 'Online' : 'Offline'} play!
+          {this.props.game.boardId ? ` - board: ${this.props.game.boardId}` : ''}
+        </Text>
+
         <View style={styles.gameContainer}>
           <Components.LinearGradient
             colors={[Colors.primary, Colors.primary700]}
@@ -50,31 +83,29 @@ class TicTacToe extends React.Component {
             <Board
               board={this.props.game.board}
               gameOver={this.props.game.gameOver}
-              onClick={this.clickMovement}
+              onClick={nextPlayer === 'Rival' ? () => {} : this.clickMovement}
             />
           </Components.LinearGradient>
         </View>
 
         <View style={[styles.gameStatus, { backgroundColor: this.getColor() }]}>
           <GameStatus
-            nextPlayer={this.props.game.nextPlayer}
+            boardId={this.props.game.boardId}
+            creator={this.props.game.creator}
+            nextPlayer={nextPlayer}
             gameOver={this.props.game.gameOver}
             winner={this.props.game.winner}
           />
         </View>
 
-        <OptionItem
-          text={'Restart!'}
-          icon={'refresh'}
-          iconColor={Colors.warning}
-          onPress={this.clickRestart}
-        />
+        {reload}
       </View>
     );
   }
 }
 
 TicTacToe.propTypes = {
+  boardId: PropTypes.number,
   game: PropTypes.object,
   movement: PropTypes.func,
   restart: PropTypes.func
@@ -86,12 +117,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
 
+  title: {
+    color: '#FFF',
+    fontSize: 14,
+    fontStyle: 'italic',
+    marginHorizontal: 10
+  },
+
   gameContainer: {
     height: windowWidth,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: Colors.primary300,
-    marginTop: 30,
+    marginTop: 0,
     margin: 10
   },
 

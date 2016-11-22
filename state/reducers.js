@@ -1,8 +1,10 @@
-import _ from 'lodash';
-import { MOVEMENT, RESTART } from './actions';
+import { without, forEach } from 'lodash';
+import { MOVEMENT, RESTART, LOADING,
+         CREATE_OFFLINE_BOARD, CREATE_ONLINE_BOARD,
+         LOAD_ONLINE_BOARD, CLEAN_ONLINE_BOARD } from './actions';
 import { initialState } from './initialState';
 
-const moveReducer = (state = initialState, action) => {
+const moveReducer = (state = initialState(), action) => {
   const updateBoard = (currentBoard) => {
     const newBoard = [
             [currentBoard[0][0], currentBoard[0][1], currentBoard[0][2]],
@@ -10,14 +12,15 @@ const moveReducer = (state = initialState, action) => {
             [currentBoard[2][0], currentBoard[2][1], currentBoard[2][2]]
     ];
     newBoard[action.rowNum][action.colNum] = state.nextPlayer;
+
     return newBoard;
   };
 
   const checkBoardIsFull = (board) => {
-        /*
-        Returns true if all positions in the board are already fulfilled
-        with a value different to null, or false otherwise.
-        */
+    /*
+    Returns true if all positions in the board are already fulfilled
+    with a value different to null, or false otherwise.
+    */
     let isFull = true;
     [0, 1, 2].map((row) => {
       [0, 1, 2].map((col) => {
@@ -30,35 +33,35 @@ const moveReducer = (state = initialState, action) => {
   };
 
   const isWinningCombination = (combinationValues) => {
-        /*
-        Returns true if given combinationValues
-        is ["X", "X", "X"] or ["O", "O", "O"], or false otherwise.
-        */
-    const xWins = !_.without(combinationValues, 'X').length;
-    const oWins = !_.without(combinationValues, 'O').length;
+    /*
+    Returns true if given combinationValues
+    is ["X", "X", "X"] or ["O", "O", "O"], or false otherwise.
+    */
+    const xWins = !without(combinationValues, 'X').length;
+    const oWins = !without(combinationValues, 'O').length;
     return xWins || oWins;
   };
 
   const checkWinningCombination = (board) => {
     const combinations = [
-            // horizontals
-            [[0, 0], [0, 1], [0, 2]],
-            [[1, 0], [1, 1], [1, 2]],
-            [[2, 0], [2, 1], [2, 2]],
+      // horizontals
+      [[0, 0], [0, 1], [0, 2]],
+      [[1, 0], [1, 1], [1, 2]],
+      [[2, 0], [2, 1], [2, 2]],
 
-            // verticals
-            [[0, 0], [1, 0], [2, 0]],
-            [[0, 1], [1, 1], [2, 1]],
-            [[0, 2], [1, 2], [2, 2]],
+      // verticals
+      [[0, 0], [1, 0], [2, 0]],
+      [[0, 1], [1, 1], [2, 1]],
+      [[0, 2], [1, 2], [2, 2]],
 
-            // diagonals
-            [[0, 0], [1, 1], [2, 2]],
-            [[0, 2], [1, 1], [2, 0]]
+      // diagonals
+      [[0, 0], [1, 1], [2, 2]],
+      [[0, 2], [1, 1], [2, 0]]
     ];
     let foundWinningCombination = false;
-    _.forEach(combinations, (combination) => {
+    forEach(combinations, (combination) => {
       const combinationValues = [];
-      _.forEach(combination, (position) => {
+      forEach(combination, (position) => {
         const row = position[0];
         const col = position[1];
         combinationValues.push(board[row][col]);
@@ -96,16 +99,43 @@ const moveReducer = (state = initialState, action) => {
       }
 
       return {
+        ...state,
         winner,
         nextPlayer: player,
         gameOver,
         board
       };
     case RESTART:
-      return initialState;
+      return action.game;
+    case LOADING:
+      return {
+        ...state,
+        loading: action.loading
+      };
+    case CREATE_OFFLINE_BOARD:
+      return action.game;
+    case CREATE_ONLINE_BOARD:
+      return {
+        ...action.game,
+        newBoard: action.newBoard,
+        loading: action.loading
+      };
+    case LOAD_ONLINE_BOARD:
+      return {
+        ...action.game,
+        loading: action.loading
+      };
+    case CLEAN_ONLINE_BOARD:
+      return {
+        ...state,
+        winner: action.winner,
+        nextPlayer: action.nextPlayer,
+        gameOver: action.gameOver,
+        board: action.board
+      };
     default:
       return state;
   }
 };
 
-export { moveReducer };
+export default moveReducer;

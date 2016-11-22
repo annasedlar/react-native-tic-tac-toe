@@ -2,7 +2,7 @@ import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 
 import thunk from 'redux-thunk';
 import devToolsEnhancer from 'remote-redux-devtools';
-import { moveReducer } from './reducers';
+import moveReducer from './reducers';
 
 const rootReducer = combineReducers({
   game: moveReducer

@@ -18,6 +18,7 @@ class GameStatus extends React.Component {
         </Text>
       );
     }
+
     return (
       <Text style={styles.text}>
         Next player: {this.props.nextPlayer}
@@ -27,6 +28,8 @@ class GameStatus extends React.Component {
 }
 
 GameStatus.propTypes = {
+  boardId: PropTypes.number,
+  creator: PropTypes.string,
   nextPlayer: PropTypes.string,
   gameOver: PropTypes.bool,
   winner: PropTypes.string
