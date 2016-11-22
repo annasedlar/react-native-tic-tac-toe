@@ -7,10 +7,11 @@ const firebaseRef = firebaseApp.database().ref();
 
 export const MOVEMENT = 'MOVEMENT';
 export const RESTART = 'RESTART';
-export const LOAD_BOARD = 'LOAD_BOARD';
-export const CREATE_BOARD = 'CREATE_BOARD';
-export const UPDATE_BOARD = 'UPDATE_BOARD';
 export const LOADING = 'LOADING';
+export const CREATE_OFFLINE_BOARD = 'CREATE_OFFLINE_BOARD';
+export const CREATE_ONLINE_BOARD = 'CREATE_ONLINE_BOARD';
+export const CLEAN_ONLINE_BOARD = 'CLEAN_ONLINE_BOARD';
+export const LOAD_ONLINE_BOARD = 'LOAD_ONLINE_BOARD';
 
 export const movement = (rowNum, colNum) => (dispatch, getState) => {
   dispatch({
@@ -28,14 +29,36 @@ export const movement = (rowNum, colNum) => (dispatch, getState) => {
   }
 };
 
-export const restart = () => (dispatch) => {
+export const restart = () => (dispatch, getState) => {
+  const { game } = getState();
+  const { boardId } = game;
+  const player = game.nextPlayer === 'X' ? 'O' : 'X';
+  const emptyBoard = initialState().board;
+
+  if (boardId) {
+    dispatch({
+      type: CLEAN_ONLINE_BOARD,
+      winner: null,
+      nextPlayer: player,
+      gameOver: false,
+      board: emptyBoard
+    });
+  } else {
+    dispatch({
+      type: RESTART,
+      game: initialState()
+    });
+  }
+};
+
+export const createOfflineBoard = () => (dispatch) => {
   dispatch({
-    type: RESTART,
+    type: CREATE_OFFLINE_BOARD,
     game: initialState()
   });
 };
 
-export const createBoard = () => (dispatch) => {
+export const createOnlineBoard = () => (dispatch) => {
   dispatch({
     type: LOADING,
     loading: true
@@ -48,7 +71,8 @@ export const createBoard = () => (dispatch) => {
   .set(newGame)
   .then(() => {
     dispatch({
-      type: CREATE_BOARD,
+      type: CREATE_ONLINE_BOARD,
+      game: newGame,
       newBoard: newGame.boardId,
       loading: false
     });
@@ -60,7 +84,7 @@ export const createBoard = () => (dispatch) => {
   });
 };
 
-export const loadBoard = boardId => (dispatch) => {
+export const loadOnlineBoard = boardId => (dispatch) => {
   if (boardId) {
     dispatch({
       type: LOADING,
@@ -81,7 +105,7 @@ export const loadBoard = boardId => (dispatch) => {
         }
 
         dispatch({
-          type: LOAD_BOARD,
+          type: LOAD_ONLINE_BOARD,
           game,
           loading: false
         });

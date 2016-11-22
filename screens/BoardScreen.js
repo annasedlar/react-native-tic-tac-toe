@@ -22,7 +22,7 @@ const BoardScreen = props => (
 BoardScreen.route = {
   navigationBar: {
     visible: true,
-    renderTitle: () => <BoardHeader headerText="React Native - Tic Tac Toe" />,
+    renderTitle: () => <BoardHeader headerText="Rmotr - Tic Tac Toe" />,
     backgroundColor: Colors.primary700,
     tintColor: '#FFF'
   },

@@ -55,7 +55,9 @@ class TicTacToe extends React.Component {
       } else if (nextPlayer === 'O') {
         nextPlayer = 'Me';
       }
-    } else {
+    }
+
+    if (!this.props.game.boardId || this.props.game.gameOver) {
       reload = (
         <OptionItem
           text={'Restart!'}

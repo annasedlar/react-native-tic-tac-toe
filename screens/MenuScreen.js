@@ -7,7 +7,7 @@ import Colors from '../constants/Colors';
 import BoardHeader from '../components/BoardHeader';
 import MenuButton from '../components/MenuButton';
 import LoadingIndicator from '../components/LoadingIndicator';
-import { createBoard, loadBoard, restart } from '../state/actions';
+import { createOfflineBoard, createOnlineBoard, loadOnlineBoard } from '../state/actions';
 
 @withNavigation
 class MenuScreen extends React.Component {
@@ -18,33 +18,29 @@ class MenuScreen extends React.Component {
       promptVisible: false
     };
 
-    this.goToBoard = this.goToBoard.bind(this);
-    this.loadBoard = this.loadBoard.bind(this);
-    this.createBoard = this.createBoard.bind(this);
+    this.joinOfflineBoard = this.joinOfflineBoard.bind(this);
+    this.createOnlineBoard = this.createOnlineBoard.bind(this);
     this.joinOnlineGame = this.joinOnlineGame.bind(this);
-    this.checkOnlineGame = this.checkOnlineGame.bind(this);
+    this.loadOnlineGame = this.loadOnlineGame.bind(this);
   }
 
-  goToBoard() {
-    this.props.restart();
+  joinOfflineBoard() {
+    this.props.createOfflineBoard();
     this.props.navigator.push('board');
   }
 
-  createBoard() {
-    this.props.createBoard();
-  }
-
-  loadBoard(board) {
-    this.props.loadBoard(board);
+  createOnlineBoard() {
+    this.props.createOnlineBoard();
+    this.props.navigator.push('board');
   }
 
   joinOnlineGame() {
     this.setState({ promptVisible: true });
   }
 
-  checkOnlineGame(boardId) {
+  loadOnlineGame(boardId) {
     this.setState({ promptVisible: false });
-    this.loadBoard(boardId);
+    this.props.loadOnlineBoard(boardId);
     this.props.navigator.push('board');
   }
 
@@ -61,7 +57,7 @@ class MenuScreen extends React.Component {
           text={'Offline play'}
           icon={'gamepad'}
           iconColor={Colors.O}
-          onPress={this.goToBoard}
+          onPress={this.joinOfflineBoard}
           marginBottom={15}
         />
 
@@ -69,7 +65,7 @@ class MenuScreen extends React.Component {
           text={this.props.game.newBoard ? `Create online game: ${this.props.game.newBoard}` : 'Create online game'}
           icon={'globe'}
           iconColor={Colors.warning}
-          onPress={this.createBoard}
+          onPress={this.createOnlineBoard}
           marginBottom={15}
         />
 
@@ -86,7 +82,7 @@ class MenuScreen extends React.Component {
           placeholder="Board code"
           visible={this.state.promptVisible}
           onCancel={() => this.setState({ promptVisible: false })}
-          onSubmit={this.checkOnlineGame}
+          onSubmit={this.loadOnlineGame}
         />
 
         <LoadingIndicator
@@ -102,7 +98,7 @@ class MenuScreen extends React.Component {
 MenuScreen.route = {
   navigationBar: {
     visible: true,
-    renderTitle: () => <BoardHeader headerText="React Native - Tic Tac Toe" />,
+    renderTitle: () => <BoardHeader headerText="Rmotr - Tic Tac Toe" />,
     backgroundColor: Colors.primary700,
     tintColor: '#FFF'
   },
@@ -112,9 +108,9 @@ MenuScreen.route = {
 MenuScreen.propTypes = {
   navigator: PropTypes.object,
   game: PropTypes.object,
-  restart: PropTypes.func,
-  createBoard: PropTypes.func,
-  loadBoard: PropTypes.func
+  createOfflineBoard: PropTypes.func,
+  createOnlineBoard: PropTypes.func,
+  loadOnlineBoard: PropTypes.func
 };
 
 const styles = StyleSheet.create({
@@ -143,5 +139,9 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createBoard, loadBoard, restart }
+  {
+    createOfflineBoard,
+    createOnlineBoard,
+    loadOnlineBoard
+  }
 )(MenuScreen);

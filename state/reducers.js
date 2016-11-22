@@ -1,6 +1,7 @@
 import { without, forEach } from 'lodash';
 import { MOVEMENT, RESTART, LOADING,
-         CREATE_BOARD, LOAD_BOARD } from './actions';
+         CREATE_OFFLINE_BOARD, CREATE_ONLINE_BOARD,
+         LOAD_ONLINE_BOARD, CLEAN_ONLINE_BOARD } from './actions';
 import { initialState } from './initialState';
 
 const moveReducer = (state = initialState(), action) => {
@@ -106,21 +107,31 @@ const moveReducer = (state = initialState(), action) => {
       };
     case RESTART:
       return action.game;
-    case CREATE_BOARD:
-      return {
-        ...state,
-        newBoard: action.newBoard,
-        loading: action.loading
-      };
-    case LOAD_BOARD:
-      return {
-        ...action.game,
-        loading: action.loading
-      };
     case LOADING:
       return {
         ...state,
         loading: action.loading
+      };
+    case CREATE_OFFLINE_BOARD:
+      return action.game;
+    case CREATE_ONLINE_BOARD:
+      return {
+        ...action.game,
+        newBoard: action.newBoard,
+        loading: action.loading
+      };
+    case LOAD_ONLINE_BOARD:
+      return {
+        ...action.game,
+        loading: action.loading
+      };
+    case CLEAN_ONLINE_BOARD:
+      return {
+        ...state,
+        winner: action.winner,
+        nextPlayer: action.nextPlayer,
+        gameOver: action.gameOver,
+        board: action.board
       };
     default:
       return state;
