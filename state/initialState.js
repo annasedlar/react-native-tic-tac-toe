@@ -1,6 +1,8 @@
-export const initialState = {
+import { Constants } from 'exponent';
+
+export const initialState = () => ({
   boardId: null,
-  creator: null,
+  creator: Constants.deviceId,
   winner: null,
   nextPlayer: 'X',
   gameOver: false,
@@ -9,4 +11,4 @@ export const initialState = {
     [null, null, null],
     [null, null, null]
   ]
-};
+});

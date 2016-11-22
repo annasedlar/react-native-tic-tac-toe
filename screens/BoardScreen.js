@@ -5,9 +5,9 @@ import Colors from '../constants/Colors';
 import BoardHeader from '../components/BoardHeader';
 import TicTacToe from '../components/Tictactoe';
 
-const BoardScreen = props => (
+const BoardScreen = () => (
   <View style={styles.container}>
-    <TicTacToe boardId={props.route.params.boardId} />
+    <TicTacToe />
   </View>
 );
 

@@ -1,15 +1,12 @@
-import { Constants } from 'exponent';
 import React, { PropTypes } from 'react';
-import { View, Text, StyleSheet,
-         Alert } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import Prompt from 'react-native-prompt';
-import firebaseApp from '../constants/Firebase';
 import Colors from '../constants/Colors';
 import BoardHeader from '../components/BoardHeader';
 import MenuButton from '../components/MenuButton';
-
-const firebaseRef = firebaseApp.database().ref();
+import { createBoard, loadBoard, restart } from '../state/actions';
 
 @withNavigation
 class MenuScreen extends React.Component {
@@ -22,62 +19,33 @@ class MenuScreen extends React.Component {
     };
 
     this.goToBoard = this.goToBoard.bind(this);
+    this.loadBoard = this.loadBoard.bind(this);
+    this.createBoard = this.createBoard.bind(this);
     this.joinOnlineGame = this.joinOnlineGame.bind(this);
     this.checkOnlineGame = this.checkOnlineGame.bind(this);
-    this.createOnlineGame = this.createOnlineGame.bind(this);
   }
 
   goToBoard() {
+    this.props.restart();
     this.props.navigator.push('board');
   }
 
-  createOnlineGame() {
-    const randomNum = Math.floor(Math.random() * 9000) + 1000;
+  createBoard() {
+    this.props.createBoard();
+  }
 
-    const onlineBoard = {
-      boardId: randomNum,
-      creator: Constants.deviceId,
-      winner: null,
-      nextPlayer: 'X',
-      gameOver: false,
-      board: [
-        [null, null, null],
-        [null, null, null],
-        [null, null, null]
-      ]
-    };
-
-    firebaseRef.child('boards').child(randomNum)
-    .set(onlineBoard)
-    .then(() => {
-      this.setState({ newBoard: randomNum });
-
-      Alert.alert(
-        `Your board code is: ${randomNum}`,
-        'Share it with your rival!'
-      );
-    });
+  loadBoard(board) {
+    this.props.loadBoard(board);
   }
 
   joinOnlineGame() {
     this.setState({ promptVisible: true });
   }
 
-  checkOnlineGame(value) {
+  checkOnlineGame(boardId) {
     this.setState({ promptVisible: false });
-
-    firebaseRef.child('boards').child(value)
-    .once('value', (snapshot) => {
-      const onlineBoard = snapshot.val();
-
-      if (onlineBoard) {
-        this.props.navigator.push('board', { boardId: onlineBoard.boardId });
-      } else {
-        Alert.alert('That board code doesn\'t exist');
-      }
-    }, (err) => {
-      Alert.alert('That board code doesn\'t exist');
-    });
+    this.loadBoard(boardId);
+    this.props.navigator.push('board');
   }
 
   render() {
@@ -101,7 +69,7 @@ class MenuScreen extends React.Component {
           text={this.state.newBoard ? `Create online game: ${this.state.newBoard}` : 'Create online game'}
           icon={'globe'}
           iconColor={Colors.warning}
-          onPress={this.createOnlineGame}
+          onPress={this.createBoard}
           marginBottom={15}
         />
 
@@ -136,8 +104,10 @@ MenuScreen.route = {
 };
 
 MenuScreen.propTypes = {
-  route: PropTypes.object,
-  navigator: PropTypes.object
+  navigator: PropTypes.object,
+  restart: PropTypes.func,
+  createBoard: PropTypes.func,
+  loadBoard: PropTypes.func
 };
 
 const styles = StyleSheet.create({
@@ -160,4 +130,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MenuScreen;
+export default connect(
+  null,
+  { createBoard, loadBoard, restart }
+)(MenuScreen);

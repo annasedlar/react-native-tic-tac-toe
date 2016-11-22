@@ -1,8 +1,9 @@
-import _ from 'lodash';
-import { MOVEMENT, RESTART, LOAD_BOARD } from './actions';
+import { without, forEach } from 'lodash';
+import { MOVEMENT, RESTART,
+         CREATE_BOARD, LOAD_BOARD } from './actions';
 import { initialState } from './initialState';
 
-const moveReducer = (state = initialState, action) => {
+const moveReducer = (state = initialState(), action) => {
   const updateBoard = (currentBoard) => {
     const newBoard = [
             [currentBoard[0][0], currentBoard[0][1], currentBoard[0][2]],
@@ -35,8 +36,8 @@ const moveReducer = (state = initialState, action) => {
     Returns true if given combinationValues
     is ["X", "X", "X"] or ["O", "O", "O"], or false otherwise.
     */
-    const xWins = !_.without(combinationValues, 'X').length;
-    const oWins = !_.without(combinationValues, 'O').length;
+    const xWins = !without(combinationValues, 'X').length;
+    const oWins = !without(combinationValues, 'O').length;
     return xWins || oWins;
   };
 
@@ -57,9 +58,9 @@ const moveReducer = (state = initialState, action) => {
       [[0, 2], [1, 1], [2, 0]]
     ];
     let foundWinningCombination = false;
-    _.forEach(combinations, (combination) => {
+    forEach(combinations, (combination) => {
       const combinationValues = [];
-      _.forEach(combination, (position) => {
+      forEach(combination, (position) => {
         const row = position[0];
         const col = position[1];
         combinationValues.push(board[row][col]);
@@ -104,19 +105,14 @@ const moveReducer = (state = initialState, action) => {
         board
       };
     case RESTART:
-      return initialState;
+      return action.game;
+    case CREATE_BOARD:
+      return state;
     case LOAD_BOARD:
-      return {
-        boardId: action.onlineGame.boardId,
-        creator: action.onlineGame.creator,
-        winner: action.onlineGame.winner || null,
-        nextPlayer: action.onlineGame.nextPlayer,
-        gameOver: action.onlineGame.gameOver,
-        board: _.merge(initialState.board, action.onlineGame.board)
-      };
+      return action.game;
     default:
       return state;
   }
 };
 
-export { moveReducer };
+export default moveReducer;

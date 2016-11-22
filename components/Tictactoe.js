@@ -1,16 +1,14 @@
 import React, { PropTypes } from 'react';
 import { View, Text, StyleSheet,
-         Dimensions, Alert } from 'react-native';
+         Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { Components, Constants } from 'exponent';
-import firebaseApp from '../constants/Firebase';
 import Colors from '../constants/Colors';
 import Board from './Board';
 import GameStatus from './GameStatus';
 import OptionItem from './OptionItem';
-import { movement, restart, loadBoard } from '../state/actions';
+import { movement, restart } from '../state/actions';
 
-const firebaseRef = firebaseApp.database().ref();
 const windowWidth = Dimensions.get('window').width;
 
 class TicTacToe extends React.Component {
@@ -19,18 +17,6 @@ class TicTacToe extends React.Component {
 
     this.clickMovement = this.clickMovement.bind(this);
     this.clickRestart = this.clickRestart.bind(this);
-    this.loadBoard = this.loadBoard.bind(this);
-
-    if (props.boardId && !props.game.boardId) {
-      firebaseRef.child('boards').child(props.boardId)
-      .on('value', (snapshot) => {
-        const onlineBoard = snapshot.val();
-
-        this.loadBoard(onlineBoard);
-      }, (err) => {
-        Alert.alert('That board code doesn\'t exist');
-      });
-    }
   }
 
   getColor() {
@@ -44,12 +30,8 @@ class TicTacToe extends React.Component {
             colorMapping[currentPlayer] : colorMapping[this.props.game.nextPlayer];
   }
 
-  loadBoard(board) {
-    this.props.loadBoard(board);
-  }
-
   clickMovement(row, col) {
-    this.props.movement(row, col, this.props.boardId);
+    this.props.movement(row, col);
   }
 
   clickRestart() {
@@ -60,20 +42,18 @@ class TicTacToe extends React.Component {
     let reload;
     let nextPlayer = this.props.game.nextPlayer;
 
-    if (this.props.boardId) {
+    if (this.props.game.boardId) {
       // change nextPlayer on online game
-      if (this.props.boardId) {
-        if (Constants.deviceId === this.props.game.creator) {
-          if (nextPlayer === 'X') {
-            nextPlayer = 'Me';
-          } else if (nextPlayer === 'O') {
-            nextPlayer = 'Rival';
-          }
-        } else if (nextPlayer === 'X') {
-          nextPlayer = 'Rival';
-        } else if (nextPlayer === 'O') {
+      if (Constants.deviceId === this.props.game.creator) {
+        if (nextPlayer === 'X') {
           nextPlayer = 'Me';
+        } else if (nextPlayer === 'O') {
+          nextPlayer = 'Rival';
         }
+      } else if (nextPlayer === 'X') {
+        nextPlayer = 'Rival';
+      } else if (nextPlayer === 'O') {
+        nextPlayer = 'Me';
       }
     } else {
       reload = (
@@ -89,8 +69,8 @@ class TicTacToe extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
-          {this.props.boardId ? 'Online' : 'Offline'} play!
-          {this.props.boardId ? ` - board: ${this.props.boardId}` : ''}
+          {this.props.game.boardId ? 'Online' : 'Offline'} play!
+          {this.props.game.boardId ? ` - board: ${this.props.game.boardId}` : ''}
         </Text>
 
         <View style={styles.gameContainer}>
@@ -126,8 +106,7 @@ TicTacToe.propTypes = {
   boardId: PropTypes.number,
   game: PropTypes.object,
   movement: PropTypes.func,
-  restart: PropTypes.func,
-  loadBoard: PropTypes.func
+  restart: PropTypes.func
 };
 
 const styles = StyleSheet.create({
@@ -169,5 +148,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { movement, restart, loadBoard }
+  { movement, restart }
 )(TicTacToe);
