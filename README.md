@@ -2,6 +2,8 @@
 
 Minimal implementation of a "Tic-Tac-Toe" app using React Native and Exponent
 
+https://exp.host/@test123/rmotr-tic-tac-toe
+
 <p align="center">
   <img src="http://i.imgur.com/Umqn5xc.gif">
 </p>
