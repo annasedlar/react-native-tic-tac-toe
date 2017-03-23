@@ -1,5 +1,5 @@
 import Expo, { AppLoading } from 'expo';
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Platform, StatusBar, StyleSheet,
          View } from 'react-native';
 import { NavigationProvider, StackNavigation } from '@expo/ex-navigation';
@@ -22,9 +22,6 @@ class AppContainer extends React.Component {
   async loadAssetsAsync() {
     try {
       await cacheAssetsAsync({
-        images: [
-          require('./assets/images/tictactoe.png')
-        ],
         fonts: [
           { meriendaOne: require('./assets/fonts/MeriendaOne-Regular.ttf') }
         ]

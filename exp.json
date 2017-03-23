@@ -1,7 +1,8 @@
 {
-  "name": "react-native-tic-tac-toe",
+  "name": "Tic Tac Toe",
   "description": "Minimal implementation of a 'Tic-Tac-Toe' application using React Native",
   "slug": "react-native-tic-tac-toe",
+  "privacy": "public",
   "sdkVersion": "15.0.0",
   "version": "1.0.0",
   "orientation": "portrait",
@@ -28,9 +29,9 @@
 
    /*Deploy configurations */
   "ios": {
-    "bundleIdentifier": "org.rnplay.exp",
+    "bundleIdentifier": "org.rmotr.exp",
   },
   "android": {
-    "package": "org.rnplay.exp",
+    "package": "org.rmotr.exp",
   }
 }
