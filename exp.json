@@ -24,5 +24,13 @@
   "androidShowExponentNotificationInShellApp": false,
   "packagerOpts": {
     "assetExts": ["ttf"]
+  },
+
+   /*Deploy configurations */
+  "ios": {
+    "bundleIdentifier": "org.rnplay.exp",
+  },
+  "android": {
+    "package": "org.rnplay.exp",
   }
 }
