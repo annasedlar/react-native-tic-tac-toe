@@ -22,6 +22,7 @@ class AppContainer extends React.Component {
   async loadAssetsAsync() {
     try {
       await cacheAssetsAsync({
+        images: [],
         fonts: [
           { meriendaOne: require('./assets/fonts/MeriendaOne-Regular.ttf') }
         ]
