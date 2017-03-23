@@ -1,6 +1,6 @@
 # React Native Tic-Tac-Toe
 
-Minimal implementation of a "Tic-Tac-Toe" app using React Native and Exponent
+Minimal implementation of a "Tic-Tac-Toe" app using React Native and Expo
 
 https://exp.host/@test123/react-native-tic-tac-toe
 
@@ -14,7 +14,7 @@ https://exp.host/@test123/react-native-tic-tac-toe
 $ npm install -d
 ```
 
-## Setting up the Exponent Development CLI
+## Setting up the Expo Development CLI
 
 ```bash
 $ npm install -g exp
@@ -22,7 +22,7 @@ $ npm install -g exp
 
 ## Login or Signup
 
-In order to start Exponent server, you would need to be registered.
+In order to start Expo server, you would need to be registered.
 
 ```
 $ exp login
@@ -34,7 +34,7 @@ $ exp signup
 
 ## Running the app in a local server
 
-Exponent Development CLI provides, out of the box, a way to start a local server for your app and give your a URL to it. Just execute the `exp start` command from Exponent Development CLI and the application will start. To see all options available execute `exp start --help`.
+Expo Development CLI provides, out of the box, a way to start a local server for your app and give your a URL to it. Just execute the `exp start` command from Expo Development CLI and the application will start. To see all options available execute `exp start --help`.
 
 The server will continue running until you stop it with `exp stop`. Use `exp logs` to view logs.
 
@@ -46,7 +46,7 @@ $ exp start --dev [options]
 
 ## Running the app in your simulator
 
-Exponent Development CLI also provides a way to opens your app in Exponent app in a currently running iOS simulator on your computer, or on a connected Android device.
+Expo Development CLI also provides a way to opens your app in Expo app in a currently running iOS simulator on your computer, or on a connected Android device.
 
 ```bash
 $ exp start --ios [options]

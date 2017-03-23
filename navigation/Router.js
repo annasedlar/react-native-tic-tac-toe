@@ -1,4 +1,4 @@
-import { createRouter } from '@exponent/ex-navigation';
+import { createRouter } from '@expo/ex-navigation';
 import BoardScreen from '../screens/BoardScreen';
 import MenuScreen from '../screens/MenuScreen';
 

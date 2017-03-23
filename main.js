@@ -1,8 +1,8 @@
-import Exponent from 'exponent';
+import Expo, { AppLoading } from 'expo';
 import React, { PropTypes } from 'react';
 import { Platform, StatusBar, StyleSheet,
          View } from 'react-native';
-import { NavigationProvider, StackNavigation } from '@exponent/ex-navigation';
+import { NavigationProvider, StackNavigation } from '@expo/ex-navigation';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from './state/store';
 import Router from './navigation/Router';
@@ -55,13 +55,9 @@ class AppContainer extends React.Component {
       );
     }
 
-    return <Exponent.Components.AppLoading />;
+    return <AppLoading />;
   }
 }
-
-AppContainer.propTypes = {
-  exp: PropTypes.object
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -74,4 +70,4 @@ const styles = StyleSheet.create({
   }
 });
 
-Exponent.registerRootComponent(AppContainer);
+Expo.registerRootComponent(AppContainer);

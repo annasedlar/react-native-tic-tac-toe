@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { View, Text, StyleSheet,
          Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import { Components, Constants } from 'exponent';
+import { LinearGradient, Constants } from 'expo';
 import Colors from '../constants/Colors';
 import Board from './Board';
 import GameStatus from './GameStatus';
@@ -80,7 +80,7 @@ class TicTacToe extends React.Component {
         </Text>
 
         <View style={styles.gameContainer}>
-          <Components.LinearGradient
+          <LinearGradient
             colors={[Colors.primary, Colors.primary700]}
             style={styles.gameContainerGradient}
           >
@@ -89,7 +89,7 @@ class TicTacToe extends React.Component {
               gameOver={this.props.game.gameOver}
               onClick={nextPlayer === 'Rival' ? () => {} : this.clickMovement}
             />
-          </Components.LinearGradient>
+          </LinearGradient>
         </View>
 
         <View style={[styles.gameStatus, { backgroundColor: this.getColor() }]}>

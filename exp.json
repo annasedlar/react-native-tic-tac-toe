@@ -2,26 +2,26 @@
   "name": "react-native-tic-tac-toe",
   "description": "Minimal implementation of a 'Tic-Tac-Toe' application using React Native",
   "slug": "react-native-tic-tac-toe",
-  "sdkVersion": "12.0.0",
+  "sdkVersion": "15.0.0",
   "version": "1.0.0",
   "orientation": "portrait",
   "primaryColor": "#3A4767",
-  "iconUrl": "https://s13.postimg.org/wflosfalj/logo.png",
+  "icon": "https://s13.postimg.org/wflosfalj/logo.png",
   "notification": {
-    "iconUrl": "https://s13.postimg.org/wflosfalj/logo.png",
+    "icon": "https://s13.postimg.org/wflosfalj/logo.png",
     "color": "#000000",
     "androidMode": "default",
     "androidCollapsedTitle": "#{unread_notifications} new interactions"
   },
   "loading": {
-    "iconUrl": "https://s13.postimg.org/wflosfalj/logo.png",
-    "backgroundImageUrl": "http://i.imgur.com/zsnPy5z.png",
+    "icon": "https://s13.postimg.org/wflosfalj/logo.png",
+    "backgroundImage": "http://i.imgur.com/zsnPy5z.png",
     "backgroundColor": "#FFF",
     "hideExponentText": true
   },
   "appKey": "main",
   "androidStatusBarColor": "#000000",
-  "androidHideExponentNotificationInShellApp": true,
+  "androidShowExponentNotificationInShellApp": false,
   "packagerOpts": {
     "assetExts": ["ttf"]
   }

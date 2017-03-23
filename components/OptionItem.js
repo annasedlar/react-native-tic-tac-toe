@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { View, Text, TouchableOpacity,
          StyleSheet } from 'react-native';
-import { FontAwesome } from '@exponent/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 const OptionItem = props => (
   <TouchableOpacity

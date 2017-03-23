@@ -1,4 +1,4 @@
-import { Asset, Font } from 'exponent';
+import { Asset, Font } from 'expo';
 
 const cacheAssetsAsync = ({ images = [], fonts = [] }) => (
   Promise.all([

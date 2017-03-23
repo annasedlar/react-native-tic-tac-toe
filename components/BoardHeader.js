@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Font } from 'exponent';
+import { Font } from 'expo';
 
 const BoardHeader = props => (
   <View style={styles.viewStyle}>

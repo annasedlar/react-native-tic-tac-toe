@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationStyles } from '@exponent/ex-navigation';
+import { NavigationStyles } from '@expo/ex-navigation';
 import Colors from '../constants/Colors';
 import BoardHeader from '../components/BoardHeader';
 import TicTacToe from '../components/Tictactoe';

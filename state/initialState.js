@@ -1,4 +1,4 @@
-import { Constants } from 'exponent';
+import { Constants } from 'expo';
 
 export const initialState = () => ({
   boardId: null,
